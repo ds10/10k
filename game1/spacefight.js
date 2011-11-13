@@ -120,7 +120,7 @@ document.onmousedown = function(e){
 var bullets = [];
 
 
-var Bullet = function(x, y, type){
+var Bullet = function(){
 	var that=this;
 	
 	that.firstColor = '#FF8C00';
@@ -129,16 +129,22 @@ var Bullet = function(x, y, type){
 		//baddy.fallStop();
 	};
 	
-	that.x = ~~ x;
-	that.y = y;
-	that.type = type;
+	
+	that.X = player.X;
+	that.Y = player.Y	
+	
+	that.setPosition = function(){
+		that.X = x;
+		that.Y = y;
+	}
 	
 	that.draw = function(){
-		ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-		ctx.fillRect(player.X, player.Y, 20, 20);
+		 alert ("bulletshot");
+		 ctx.fillStyle = "rgba(255, 255, 0, 0.5)";  
+		 ctx.fillRect (that.X, that.Y, 5, 5);  
 	};
-
-	alert(player.x);
+	
+	//alert(player.X);
 	return that;
 };
 
@@ -153,7 +159,22 @@ var GameLoop = function(){
 	MoveCircles(5);
 	DrawCircles();
 	player.draw();
-	//for each bullet. bullet.move
+	//for each bullet. bullet.draw
+	
+	
+	/*
+	for (x in bullets){
+		bullets[x].draw;
+	}
+	*/
+	
+	// like this->
+	bullets.forEach(function(bullet){
+		bullet.setPosition();
+		bullet.draw();
+	});
+	
+	
 	gLoop = setTimeout(GameLoop, 1000 / 50);
 }
 
