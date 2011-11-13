@@ -130,16 +130,16 @@ var Bullet = function(){
 	};
 	
 	
-	that.X = player.X;
-	that.Y = player.Y	
+	that.X = player.X + 28;
+	that.Y = player.Y;
 	
 	that.setPosition = function(){
-		that.X = x;
-		that.Y = y;
+		//that.X = x + 1;;
+		that.Y = that.Y - 5;
 	}
 	
 	that.draw = function(){
-		 alert ("bulletshot");
+		 //alert ("bulletshot");
 		 ctx.fillStyle = "rgba(255, 255, 0, 0.5)";  
 		 ctx.fillRect (that.X, that.Y, 5, 5);  
 	};
@@ -162,19 +162,22 @@ var GameLoop = function(){
 	//for each bullet. bullet.draw
 	
 	
-	/*
-	for (x in bullets){
-		bullets[x].draw;
-	}
-	*/
 	
+	 for(i=0;i<bullets.length;i++) {
+		 bullets[i].setPosition();
+		 bullets[i].draw();
+	   
+	  }
+
+	
+	/*
 	// like this->
 	bullets.forEach(function(bullet){
 		bullet.setPosition();
 		bullet.draw();
 	});
 	
-	
+	*/
 	gLoop = setTimeout(GameLoop, 1000 / 50);
 }
 
