@@ -48,55 +48,55 @@ var MoveCircles = function(e){
 
 
 var player = new (function(){
-	var that = this;
-	that.image = new Image();
+	var self = this;
+	self.image = new Image();
 
-	that.image.src = "space_ship.png"
-	that.width = 64;
-	that.height = 64;
-	that.frames = 0;
-	that.actualFrame = 0;
-	that.X = 0;
-	that.Y = 400;	
+	self.image.src = "space_ship.png"
+	self.width = 64;
+	self.height = 64;
+	self.frames = 0;
+	self.actualFrame = 0;
+	self.X = 0;
+	self.Y = 400;	
 	
-	that.setPosition = function(x, y){
-		that.X = x;
-		that.Y = y;
+	self.setPosition = function(x, y){
+		self.X = x;
+		self.Y = y;
 	}
 	
-	that.interval = 0;
-	that.draw = function(){
+	self.interval = 0;
+	self.draw = function(){
 		try {
-			ctx.drawImage(that.image, 0, that.height * that.actualFrame, that.width, that.height, that.X, that.Y, that.width, that.height);
+			ctx.drawImage(self.image, 0, self.height * self.actualFrame, self.width, self.height, self.X, self.Y, self.width, self.height);
 		} 
 		catch (e) {
 		};
 		
-		if (that.interval == 4 ) {
-			if (that.actualFrame == that.frames) {
-				that.actualFrame = 0;
+		if (self.interval == 4 ) {
+			if (self.actualFrame == self.frames) {
+				self.actualFrame = 0;
 			}
 			else {
-				that.actualFrame++;
+				self.actualFrame++;
 			}
-			that.interval = 0;
+			self.interval = 0;
 		}
-		that.interval++;		
+		self.interval++;		
 	}
 	
-	that.moveLeft = function(){
-		if (that.X > 0) {
-			that.setPosition(that.X - 5, that.Y);
-		}
-	}
-	
-	that.moveRight = function(){
-		if (that.X + that.width < width) {
-			that.setPosition(that.X + 5, that.Y);
+	self.moveLeft = function(){
+		if (self.X > 0) {
+			self.setPosition(self.X - 5, self.Y);
 		}
 	}
 	
-	that.shoot = function(){
+	self.moveRight = function(){
+		if (self.X + self.width < width) {
+			self.setPosition(self.X + 5, self.Y);
+		}
+	}
+	
+	self.shoot = function(){
 		//alert("bullet spawns at " + this.X + this.Y);
 		spawnBullet();
 	}
@@ -121,31 +121,31 @@ var bullets = [];
 
 
 var Bullet = function(){
-	var that=this;
+	var self=this;
 	
-	that.firstColor = '#FF8C00';
-	that.secondColor = '#EEEE00';
-	that.onCollide = function(){
+	self.firstColor = '#FF8C00';
+	self.secondColor = '#EEEE00';
+	self.onCollide = function(){
 		//baddy.fallStop();
 	};
 	
 	
-	that.X = player.X + 28;
-	that.Y = player.Y;
+	self.X = player.X + 28;
+	self.Y = player.Y;
 	
-	that.setPosition = function(){
-		//that.X = x + 1;;
-		that.Y = that.Y - 5;
+	self.setPosition = function(){
+		//self.X = x + 1;;
+		self.Y = self.Y - 5;
 	}
 	
-	that.draw = function(){
+	self.draw = function(){
 		 //alert ("bulletshot");
 		 ctx.fillStyle = "rgba(255, 255, 0, 0.5)";  
-		 ctx.fillRect (that.X, that.Y, 5, 5);  
+		 ctx.fillRect (self.X, self.Y, 5, 5);  
 	};
 	
 	//alert(player.X);
-	return that;
+	return self;
 };
 
 
@@ -154,22 +154,28 @@ var spawnBullet = function(){
 	
 }
 
+var checkCollision = function(){
+	bullets.forEach(function(bullet, ind){
+		//if X. Y cordinates are near the enermy thing. KILL IT
+		
+	})
+	}
+
 var GameLoop = function(){
 	clear();
 	MoveCircles(5);
 	DrawCircles();
 	player.draw();
 	//for each bullet. bullet.draw
-	
-	
-	
+	 //move bullets
 	 for(i=0;i<bullets.length;i++) {
 		 bullets[i].setPosition();
 		 bullets[i].draw();
-	   
 	  }
 
-	
+	 //are they hitting each other?
+	 checkCollision();
+	 
 	/*
 	// like this->
 	bullets.forEach(function(bullet){
@@ -178,6 +184,8 @@ var GameLoop = function(){
 	});
 	
 	*/
+	 
+	 
 	gLoop = setTimeout(GameLoop, 1000 / 50);
 }
 
